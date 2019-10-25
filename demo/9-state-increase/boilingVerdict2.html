@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>document</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <script type="text/jsx">
+    // 摄氏温度与华氏温度
+    const scaleNames = {
+      c: 'celsius',
+      f: 'fahre'
+    }
+    // 华氏转换为摄氏
+    function toCelsius(fahre) {
+      return (fahre - 32) * 5 /9
+    }
+    // 摄氏转换为华氏
+    function toFahre(celsius) {
+      return (celsius * 9 / 5) + 32
+    }
+    // 温度转换
+    function tryConvert(temperature, convert) {
+      const temp = parseFloat(temperature)
+      if (Number.isNaN(temp)) {
+        return ''
+      }
+      const content = convert(temp)
+      const rounded = Math.round(content * 1000) / 1000
+      return rounded.toString()
+    }
+    // 根据温度判断水是否沸腾
+    function IsBoil(props) {
+      if (props.temperature >= 100) {
+        return <p>水已经沸腾了！</p>
+      }
+      return <p>水不会沸腾</p>
+    }
+    // 输入温度的表单
+    class TemperatureInput extends React.Component {
+      constructor(props) {
+        super(props)
+        this.handleChange = this.handleChange.bind(this)
+      }
+      handleChange(e) {
+        this.props.onTemperatureChange(e.target.value)
+      }
+      render() {
+        return (
+          <div>
+            <p>Enter is {scaleNames[this.props.scale]}:</p>
+            <input value={this.props.temperature} onChange={this.handleChange} />
+          </div>
+        )
+      }
+    }
+    // 总组件
+    class Calculate extends React.Component {
+      constructor(props) {
+        super(props)
+        this.state = {
+          scale: 'c',
+          temperature: ''
+        }
+        this.handleCelsius = this.handleCelsius.bind(this)
+        this.hanldeFahre = this.handleFahre.bind(this)
+      }
+      handleCelsius(temperature) {
+        this.setState({
+          scale: 'c',
+          temperature: temperature
+        })
+      }
+      handleFahre(temperature) {
+        this.setState({
+          scale: 'f',
+          temperature: temperature
+        })
+      }
+      render() {
+        const temperature = this.state.temperature
+        const scale = this.state.scale
+        const celsius = scale === 'f' ? tryConvert(temperature,toCelsius) : temperature
+        const fahre = scale === 'c' ? tryConvert(temperature,toFahre) : temperature
+        return (
+          <div>
+            <TemperatureInput temperature={celsius} scale='c' onTemperatureChange={this.handleCelsius} />
+            <TemperatureInput temperature={fahre} scale='f' onTemperatureChange={this.handleFahre} />
+            <IsBoil temperature={celsius} />
+          </div>
+        )
+      }
+    }
+    ReactDOM.render(
+      <Calculate />,
+      document.getElementById('app')
+    )
+  </script>
+</body>
+</html>
