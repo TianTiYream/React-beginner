@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>document</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <script type="text/jsx">
+    // 包含关系
+    // 组件作为props传给SplitPane
+    function SplitPane(props) {
+      return (
+        <div className="SplitPane">
+          <div className="left">
+            {props.left}
+          </div>
+          <div className="right">
+            {props.right}
+          </div>
+        </div>
+      )
+    }
+    function Contacts() {
+      return (
+        <div>
+          <p>联系人：谢晓梦</p>
+          <p>联系方式：18895333711</p>
+        </div>
+      )
+    }
+    function Chat() {
+      return (
+        <div>
+          <p>聊天信息1：哇哇哇</p>
+          <p>聊天信息2：555~</p>
+        </div>
+      )
+    }
+    function App() {
+      return (
+        <SplitPane
+          left={
+            <Contacts />
+          }
+          right={
+            <Chat />
+          } />
+      )
+    }
+    ReactDOM.render(
+      <App />,
+      document.getElementById('app')
+    )
+  </script>
+</body>
+</html>
