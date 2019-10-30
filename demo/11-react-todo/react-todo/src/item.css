@@ -1,0 +1,33 @@
+#myitem + label {
+  float: right;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #ADD8E6;
+  margin: 10px 20px 10px;
+  outline: none;
+}
+#myitem {
+  visibility: hidden;
+}
+
+#myitem:checked + label:after{
+  content:"\2714";
+  position: absolute;
+  right: 29px;
+  top: 0px;
+}
+.item {
+  height: 50px;
+  line-height: 50px;
+  border-top: 1px solid #ddd;
+  vertical-align: middle;
+  padding-left: 20px;
+  margin: 0;
+  margin-top: 2px;
+  position: relative;
+}
+.checkStyle {
+  text-decoration: line-through;
+  color: #999;
+}
